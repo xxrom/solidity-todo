@@ -3,7 +3,7 @@
 
 ### backend folder ('blockain')
 
--   Steps for compiling and uploading contract to blockchain:
+-   Steps for compiling and uploading contract to blockchain (npm run truffle:all):
 
 -   1. `truffle dashboard` - there connect metamask to truffle
 

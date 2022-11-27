@@ -6,7 +6,11 @@
     "dev": "PORT=4000 next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "truffle": "truffle dashboard",
+    "truffle:all": "npm run truffle:upload && npm run truffle:compile-abi",
+    "truffle:upload": "truffle migrate --network dashboard",
+    "truffle:compile-abi": "truffle compile"
   },
   "dependencies": {
     "next": "12.2.2",
