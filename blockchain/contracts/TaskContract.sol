@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.15;
+pragma solidity 0.8.17;
 
 /*
   - values with 'memory' mark - for temporary data and
@@ -14,13 +14,14 @@ pragma solidity 0.8.15;
     { id: uint, taskText: string, isDeleted: bool }, ...
   ]
 */
+/*
+  Deploy - deployed contract address
+  ABI
+*/
 
 contract TaskContract {
-  // address recipient "0x000sa...asf", uint taskId '123'
-  event AddTask(address recipient, unit taskId) {}
-  // uint taskId '123', bool isDeleted true/false
-  event DeleteTask(uint taskId, bool isDeleted) {}
-
+  event AddTask(address recipientAddress, uint taskId);
+  event DeleteTask(uint taskId, bool isDeleted);
   /*
     js = { id: 0, taskText: 'clean', idDeleted: false}
     solidity = Task(0, 'clean', false)
@@ -64,13 +65,13 @@ contract TaskContract {
     view - ??
     return(Task[] memory) - ??
   */
-  function getMyTasks() external view return(Task[] memory) {
+  function getMyTasks() external view returns (Task[] memory) {
     // solidity we could specify size for array (Task[2] / Task[]2 / Task[](2))
     Task[] memory temporary = new Task[](tasks.length);
     uint counter = 0;
 
-    for (uint i=0; i<tasks.length; i++) {
-      if(taskToOwner[i] == msg.sender && tasks[i].isDeleted == false) {
+    for (uint i = 0; i < tasks.length; i++) {
+      if (taskToOwner[i] == msg.sender && tasks[i].isDeleted == false) {
         temporary[counter] = tasks[i];
         counter++;
       }
@@ -81,15 +82,15 @@ contract TaskContract {
       Maybe it is cheaper to execute in blockchain then.
     */
     Task[] memory result = new Task[](counter);
-    for (uint i=0; i < counter; i++) {
-      result[i] = temporary[i]
+    for (uint i = 0; i < counter; i++) {
+      result[i] = temporary[i];
     }
 
     return result;
   }
 
   function deleteTask(uint taskId, bool isDeleted) external {
-    if(taskToOwner[taskId] == msg.sender) {
+    if (taskToOwner[taskId] == msg.sender) {
       tasks[taskId].isDeleted = isDeleted;
       // Execute it in real block chain ?
       emit DeleteTask(taskId, isDeleted);
